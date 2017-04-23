@@ -1,12 +1,14 @@
-<h1>User Page</h1>
-<p>Name: <%= @user.name %></p>
+<center><h1>User Page</h1></center>
 
-<%= link_to("Back to All Users", users_path) %><br />
+  <p>Name: <%= @user.name %></p>
 
-<h2>Reviews</h2>
+
+<h2>Reviews this user left</h2>
 <% @user.reviews.each do |rv| %>
 Review: <li><%= rv.body %></li>
 Rating: <li><%= rv.rating %></li>
 Left for Nurse: <li><%= rv.for_nurse %></li>
   <% end %>
 <br />
+
+<%= link_to("Back to All Users", users_path) %><br />
