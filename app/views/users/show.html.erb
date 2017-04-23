@@ -1,2 +1,12 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<h1>User Page</h1>
+<p>Name: <%= @user.name %></p>
+
+<%= link_to("Back to All Users", users_path) %><br />
+
+<h2>Reviews</h2>
+<% @user.reviews.each do |rv| %>
+Review: <li><%= rv.body %></li>
+Rating: <li><%= rv.rating %></li>
+Left for Nurse: <li><%= rv.for_nurse %></li>
+  <% end %>
+<br />
