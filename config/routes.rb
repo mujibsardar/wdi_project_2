@@ -1,14 +1,12 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
-
-  get 'sessions/create'
-
-  get 'sessions/destroy'
-
   root 'users#index'
+  resources :users
 
-  get '/users/:id' => 'users#show', as: :user
-  get '/users' => 'users#index', as: :users
+  delete '/logout' => 'sessions#destroy', as: :logout
+  resources :sessions, only: [:new, :create]
+
+  # get '/users/:id' => 'users#show', as: :user
+  # get '/users' => 'users#index', as: :users
 
 
   # get 'reviews/index'
