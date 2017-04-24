@@ -1,2 +1,24 @@
-<h1>Reviews#new</h1>
-<p>Find me in app/views/reviews/new.html.erb</p>
+<%= form_for @review, :html => {class: 'new_review form-horizontal'} do |f| %>
+    <div class="row"><legend class="col-md-4 col-md-offset-4">Leave Review:</legend></div>
+    <fieldset>
+        <div class="form-group">
+            <%= f.label :body, 'Body*', class: 'col-md-4 control-label' %>
+            <div class="col-md-5">
+                <%= f.text_field :body, class: 'form-control' %>
+            </div>
+        </div>
+        <div class="form-group">
+            <%= f.label :rating, 'Rating*', class: 'col-md-4 control-label' %>
+            <div class="col-md-5">
+                <%= f.text_field :rating, class: 'form-control' %>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-8 col-md-offset-4">
+              <%= f.hidden_field :user_id, :value => @review.user_id %>
+                <%= f.hidden_field :user_email, :value => @review.user_email %>
+                <%= f.submit 'Submit Review', class: 'btn btn-success' %>
+            </div>
+        </div>
+    </fieldset>
+<% end %>
