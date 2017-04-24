@@ -1,15 +1,35 @@
 <center><h1>User Page</h1></center>
 
-  <p>Name: <%= @user.name %></p>
+  <h2>Name: <%= @user.name %></h2>
+  <% if @user.nurse  %>
+    (Nurse)
 
-
-<h2>Reviews</h2>
+<h3>Reviews</h3>
 <% @user.reviews.each do |rv| %>
-Review: <li><%= rv.body %></li>
-Rating: <li><%= rv.rating %></li>
-Left for Nurse: <li><%= rv.user_email %></li>
+<p>Review: <%= rv.body %></p>
+<p>Rating: <%= rv.rating %></p>
+<p>Email: <%= rv.user_email %></p>
+<br /><br />
   <% end %>
-<br />
+<% end %>
+
+<% if @user.nurse == false and @user.id == current_user.id  %>
+  (User)
+
+<h3>Reviews I have left</h3>
+<% @reviews.each do |rv| %>
+<p>Review: <%= rv.body %></p>
+<p>Rating: <%= rv.rating %></p>
+<p>Nurse Name: <%= User.find(rv.user_id).name %></p>
+<%= button_to "Delete Review", rv, :method => :delete %><br /><br />
+<% end %>
+<% end %>
+
+
+<br /><br />
+<%= link_to("Leave Review", new_review_for_user_path(@user.id)) unless @user == current_user ||  @user.nurse == false %><br />
 
 <%= link_to("Back to All Users", users_path) %><br />
-<%= link_to("Leave Review", new_review_for_user_path(@user.id)) %><br />
+<% if @user.id == current_user.id %>
+  <%=  link_to("Edit My Profile", edit_user_path(@user.id)) %><br />
+<% end %>
