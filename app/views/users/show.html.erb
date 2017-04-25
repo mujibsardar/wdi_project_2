@@ -1,14 +1,14 @@
-<center><h1>User Page</h1></center>
+<center><h1>Profile Page</h1></center>
 
   <h2>Name: <%= @user.name %></h2>
   <% if @user.nurse  %>
-    (Nurse)
+    Review Score: <%= @user.average_score %>% (<%= @user.reviews.count %>)
 
 <h3>Reviews</h3>
 <% @user.reviews.each do |rv| %>
 <p>Review: <%= rv.body %></p>
 <p>Rating: <%= rv.rating %></p>
-<p>Email: <%= rv.user_email %></p>
+<p>Left by user: <%= rv.user_email %></p>
 <br /><br />
   <% end %>
 <% end %>
@@ -22,12 +22,17 @@
 <p>Rating: <%= rv.rating %></p>
 <p>Nurse Name: <%= User.find(rv.user_id).name %></p>
 <%= button_to "Delete Review", rv, :method => :delete %><br /><br />
+  <% end %>
 <% end %>
-<% end %>
-
 
 <br /><br />
+
+<%  if @display_review_option || !(logged_in?)%>
 <%= link_to("Leave Review", new_review_for_user_path(@user.id)) unless @user == current_user ||  @user.nurse == false %><br />
+<% else  %>
+<p><%= "Thanks for your review!" %></p>
+<% end  %>
+
 
 <%= link_to("Back to All Users", users_path) %><br />
 <% if logged_in? and @user.id == current_user.id %>

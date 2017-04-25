@@ -6,10 +6,16 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user =   User.find(params[:id])
+    @user =  User.find(params[:id])
     @email_address = @user.email
+
     @reviews = Review.where(user_email: @email_address)
 
+    @display_review_option = hasNotReviewed(@user.id)
+    # Check all reviews currently logged in user has left
+    # If a review user_id matches the id of the current page user
+    #  then return false
+    # else true
   end
 
   def new
@@ -48,5 +54,22 @@ end
   def user_edit_params
     params.require(:user).permit(:name,:email,:password, :headline, :bio, :city, :state, :nurse_type, :agency, :image)
   end
+
+  def hasNotReviewed(id)
+    if logged_in?
+    email_address = current_user.email
+    reviews = Review.where(user_email: email_address)
+    
+      reviews.each do |rv|
+        if rv.user_id == id
+          return false
+        end
+      end
+    else
+      return false
+    end
+    return true
+  end
+
 
 end

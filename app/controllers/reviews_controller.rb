@@ -8,6 +8,8 @@ class ReviewsController < ApplicationController
   end
 
   def new
+    # @reviews =
+    redirect_to root_path unless hasNotReviewed(params[:user_id].to_i)
     @review = Review.new
     @review.user_id = params[:user_id]
     @review.user_email = current_user.email
@@ -16,11 +18,11 @@ class ReviewsController < ApplicationController
   end
 
   def create
-
     @review = Review.new(review_params)
 
-    if @review.save
-       redirect_to user_path(@review.user_id)
+    if (@review.rating > 0 && @review.rating <= 100 && @review.save)
+        calcualte_review_score(@review.user_id)
+        redirect_to user_path(@review.user_id)
      else
         redirect_to root_path
      end
@@ -36,6 +38,7 @@ class ReviewsController < ApplicationController
     @review = Review.find(params[:id])
 
     if @review.destroy
+      calcualte_review_score(@review.user_id)
       redirect_to user_path(current_user.id)
     else
       redirect_to root_path
@@ -46,4 +49,38 @@ class ReviewsController < ApplicationController
   def review_params
     params.require(:review).permit(:body,:rating, :user_id, :user_email)
   end
+
+  def calcualte_review_score(userID)
+    user = User.find(userID)
+    # review_score = calcualte_review_score(@review.user_id)
+    reviews = User.find(userID).reviews
+    avg_score = 0
+    counter = 0
+    reviews.each do |s|
+      if s.rating?
+      counter += 1
+      avg_score += s.rating
+      end
+    end
+  avg_score = avg_score / counter
+  user.average_score = avg_score
+  user.save
+  end
+
+  def hasNotReviewed(id)
+    email_address = current_user.email
+    reviews = Review.where(user_email: email_address)
+
+    if logged_in?
+      reviews.each do |rv|
+        if rv.user_id == id
+          return false
+        end
+      end
+    else
+      return false
+    end
+    return true
+  end
+
 end
