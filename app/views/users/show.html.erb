@@ -30,6 +30,6 @@
 <%= link_to("Leave Review", new_review_for_user_path(@user.id)) unless @user == current_user ||  @user.nurse == false %><br />
 
 <%= link_to("Back to All Users", users_path) %><br />
-<% if @user.id == current_user.id %>
+<% if logged_in? and @user.id == current_user.id %>
   <%=  link_to("Edit My Profile", edit_user_path(@user.id)) %><br />
 <% end %>
