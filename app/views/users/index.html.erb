@@ -1,10 +1,22 @@
 <h1>Showing All Nurses</h1>
 
-<% @users.each do |u| %>
- <article><br />
-   <% if u.nurse %>
- Name: <%= link_to(u.name, user_path(u)) %><br />
- Email: <%= u.email %><br />
- <% end %>
- </article>
+
+
+ <div class="row">
+   <% @users.each do |u| %>
+
+      <% if u.nurse %>
+        <div class="col-md-3">
+          <div class="thumbnail">
+            <img src="<%= u.image %>" alt="No Image">
+            <div class="caption">
+              <h4><%= link_to(u.name, user_path(u)) %></h4>
+              <%= u.city %>, <%= u.state %>
+              <%= u.average_score %>%
+            </div>
+          </div>
+        </div>
+
+      <% end %>
 <% end %>
+</div>

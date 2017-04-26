@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authorize, only: [:edit]
 
+
   def index
     @users = User.all
   end
@@ -8,25 +9,24 @@ class UsersController < ApplicationController
   def show
     @user =  User.find(params[:id])
     @email_address = @user.email
-
     @reviews = Review.where(user_email: @email_address)
-
     @display_review_option = hasNotReviewed(@user.id)
-    # Check all reviews currently logged in user has left
-    # If a review user_id matches the id of the current page user
-    #  then return false
-    # else true
   end
 
   def new
   @user = User.new
-end
+  @nurse = true
+  @nurse = false unless params[:nurse]
+  end
 
 def create
   @user = User.new(user_params)
+
   if @user.save
-     redirect_to new_session_path
-  end
+     redirect_to root_path
+   else
+     render 'new'
+   end
 end
 
   def edit
@@ -39,6 +39,7 @@ end
         if @user.update_attributes(user_edit_params)
           redirect_to user_path(params[:id])
         else
+          
           redirect_to edit_user_path(params[:id])
         end
   end
@@ -48,18 +49,18 @@ end
 
   private
   def user_params
-    params.require(:user).permit(:name,:email,:password)
+    params.require(:user).permit(:name,:email,:password, :password_confirmation,:headline, :bio, :city, :state, :nurse_type, :nurse, :agency, :image)
   end
 
   def user_edit_params
-    params.require(:user).permit(:name,:email,:password, :headline, :bio, :city, :state, :nurse_type, :agency, :image)
+    params.require(:user).permit(:name,:email,:password, :password_confirmation, :headline, :bio, :city, :state, :nurse_type, :agency, :image)
   end
 
   def hasNotReviewed(id)
     if logged_in?
     email_address = current_user.email
     reviews = Review.where(user_email: email_address)
-    
+
       reviews.each do |rv|
         if rv.user_id == id
           return false

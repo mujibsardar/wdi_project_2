@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   resources :users
   resources :reviews
 
-  get    '/reviews/new/:user_id' => 'reviews#new', as: :new_review_for_user 
+  get    '/reviews/new/:user_id' => 'reviews#new', as: :new_review_for_user
+  get    '/users/new/nurse/:nurse'      => 'users#new'   , as: :new_nurse
 
   delete '/logout' => 'sessions#destroy', as: :logout
   resources :sessions, only: [:new, :create]
