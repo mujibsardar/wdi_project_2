@@ -3,13 +3,13 @@
    <% @users.each do |u| %>
 
       <% if u.nurse %>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="thumbnail">
             <img src="<%= u.image %>" alt="No Image">
             <div class="caption">
               <h4><%= link_to(u.name, user_path(u)) %></h4>
               <%= u.city %>, <%= u.state %>
-              <%= u.average_score %>%
+              <p style="display:inline; float:right"><%= u.avg == 0 ?  "New User" : (u.avg.to_s + "%")  %></p>
             </div>
           </div>
         </div>

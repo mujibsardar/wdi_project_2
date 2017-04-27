@@ -21,7 +21,6 @@ class ReviewsController < ApplicationController
     @review = Review.new(review_params)
 
     if (@review.rating > 0 && @review.rating <= 100 && @review.save)
-        calcualte_review_score(@review.user_id)
         redirect_to user_path(@review.user_id)
      else
         redirect_to root_path
@@ -50,22 +49,22 @@ class ReviewsController < ApplicationController
     params.require(:review).permit(:body,:rating, :user_id, :user_email)
   end
 
-  def calcualte_review_score(userID)
-    user = User.find(userID)
-    # review_score = calcualte_review_score(@review.user_id)
-    reviews = User.find(userID).reviews
-    avg_score = 0
-    counter = 0
-    reviews.each do |s|
-      if s.rating?
-      counter += 1
-      avg_score += s.rating
-      end
-    end
-  avg_score = avg_score / counter
-  user.average_score = avg_score
-  user.save
-  end
+  # def calcualte_review_score(userID)
+  #   user = User.find(userID)
+  #   # review_score = calcualte_review_score(@review.user_id)
+  #   reviews = User.find(userID).reviews
+  #   avg_score = 0
+  #   counter = 0
+  #   reviews.each do |s|
+  #     if s.rating?
+  #     counter += 1
+  #     avg_score += s.rating
+  #     end
+  #   end
+  # avg_score = avg_score / counter
+  # user.average_score = avg_score
+  # user.save
+  # end
 
   def hasNotReviewed(id)
     email_address = current_user.email

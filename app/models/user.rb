@@ -10,4 +10,12 @@ class User < ApplicationRecord
   # validates :state, presence: true
   # validates :nurse_type, presence: true
 
+  def self.search(search)
+    where("name LIKE ?", "%#{search}%")
+  end
+
+  def avg
+     divisor = self.reviews.count > 0 ? self.reviews.count : 1
+     self.reviews.inject(0) {|sum, el| sum + el.rating unless el.rating.nil? } / divisor
+  end
 end

@@ -4,6 +4,11 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    if params[:search]
+      @users = User.search(params[:search]).order("created_at DESC")
+    else
+      @users = User.all.order('created_at DESC')
+    end
   end
 
   def show
@@ -46,8 +51,10 @@ end
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
-    halt
+    if @user.destroy
+      session[:user_id] = nil
+      redirect_to root_path
+    end
   end
 
   private

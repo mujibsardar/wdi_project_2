@@ -28,7 +28,7 @@
             <h4 style="color:#00b1b1;"> <%= @user.name %> </h4></span>
 
               <% if @user.nurse %>
-              <span><p>Review Score: <%= @user.average_score %>% (<%= @user.reviews.count %>)</p></span>
+              <span><p>Review Score: <%= @user.avg %>% (<%= @user.reviews.count %>)</p></span>
               <% end %>
               <%  if @display_review_option || !(logged_in?)%>
 
