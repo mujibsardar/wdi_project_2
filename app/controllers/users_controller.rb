@@ -36,15 +36,18 @@ end
 
   def update
     @user = User.find(params[:id])
+    # @user.nurse = false
         if @user.update_attributes(user_edit_params)
           redirect_to user_path(params[:id])
         else
-          
           redirect_to edit_user_path(params[:id])
         end
   end
 
   def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    halt
   end
 
   private
@@ -53,7 +56,7 @@ end
   end
 
   def user_edit_params
-    params.require(:user).permit(:name,:email,:password, :password_confirmation, :headline, :bio, :city, :state, :nurse_type, :agency, :image)
+    params.require(:user).permit(:name,:email,:password, :password_confirmation, :headline, :bio, :city, :state, :nurse_type, :nurse, :agency, :image)
   end
 
   def hasNotReviewed(id)
