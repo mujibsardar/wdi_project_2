@@ -10,9 +10,11 @@ class ReviewsController < ApplicationController
   def new
     # @reviews =
     redirect_to root_path unless hasNotReviewed(params[:user_id].to_i)
+    p "***&&&&&^^^^^^-----------------------------------------------"
     @review = Review.new
     @review.user_id = params[:user_id]
     @review.user_email = current_user.email
+    p "***&&&&&^^^^^^-----------------------------------------------"
     # @user_email = //get current logged in user email address
 
   end
