@@ -71,9 +71,11 @@ end
     email_address = current_user.email
     reviews = Review.where(user_email: email_address)
 
-      reviews.each do |rv|
-        if rv.user_id == id
-          return false
+      if reviews
+        reviews.each do |rv|
+          if rv.user_id == id
+            return false
+          end
         end
       end
       return true
