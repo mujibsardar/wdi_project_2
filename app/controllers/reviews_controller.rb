@@ -39,7 +39,6 @@ class ReviewsController < ApplicationController
     @review = Review.find(params[:id])
 
     if @review.destroy
-      calcualte_review_score(@review.user_id)
       redirect_to user_path(current_user.id)
     else
       redirect_to root_path
