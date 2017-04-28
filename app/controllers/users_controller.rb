@@ -76,9 +76,11 @@ end
           return false
         end
       end
+      return true
     else
       return false
     end
+
     return true
   end
 
